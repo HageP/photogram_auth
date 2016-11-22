@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>
-    Likes
+  <%= current_user.username %>'s  Likes
 
     <a href="/likes/new" class="btn btn-lg btn-success">New Like</a>
 
@@ -20,11 +20,31 @@
       <% @likes.each do |like| %>
       <tr>
 
-        <td><%= like.user_id %></td>
-
-        <td><%= like.photo_id %></td>
+      <td><img src="<%= Photo.find_by(id: like.photo_id).image %>" </a></td>
+        <td><%= Photo.find_by(id: like.photo_id).caption %></td>
 
         <td>
+
+          <li class="media">
+            <div class="media-body">
+              <form action="/create_comment" method="post">
+                <!-- Hidden input for authenticity token to protect from forgery -->
+
+                <input type="hidden" name="photo_id" value= <%= like.photo_id %> >
+
+                <input type="hidden" name="user_id" value= <%= like.photo_id %> >
+
+                <!-- Label and input for body -->
+                <div class="form-group">
+                  <label for="body" class="sr-only">
+                    Body
+                  </label>
+
+                  <input type="text" id="body" name="body" placeholder="Add a comment..." class="form-control" required>
+                </div>
+              </form>
+            </div>
+          </li>
 
           <a href="/likes/<%= like.id %>" class="btn btn-primary">Show</a>
 

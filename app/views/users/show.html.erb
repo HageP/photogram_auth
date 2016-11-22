@@ -17,6 +17,19 @@
       <dt>Username</dt>
       <dd><%= @user.username %></dd>
 
+      <dt>Photos</dt>
+      <% @user_photos.each do |photo| %>
+      <tr>
+
+        <td><img src="<%= photo.image %>" class="img-responsive"</a></td>
+
+        <td><%= photo.caption %></td>
+
+        <td><%= photo.id %></td>
+
+        <td>
+      </tr>
+        <% end %>
 
     </dl>
 

@@ -24,12 +24,12 @@
       <!-- Label and input for user_id -->
 
       <div class="form-group">
-        <label for="user_id" class="control-label">
+        <label for="user_id" class="control-label" hidden="true">
           User
         </label>
 
 
-        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @like.user_id %>">
+        <input type="text" id="user_id" name="user_id" hidden="true" placeholder="User" class="form-control" value="<%= current_user.id %>">
 
       </div>
 
