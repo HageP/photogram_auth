@@ -17,20 +17,51 @@
                 <p class="text-muted">
                     <%= photo.caption %>
 
-                <img src="<%= photo.image %>" class="img-responsive" </a> <%= photo.user_id %>
+                <img src="<%= photo.image %>" class="img-responsive" </a> 
             </p>
+            <form action="/create_like" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-            <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+              <input type="hidden" name="photo_id" value="<%= photo.id %>">
 
-            <% if current_user.id == photo.user_id %>
-            <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
-            <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-        <% else %>
-            <% end %>
-        </div>
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+              <button class="btn btn-link">
+                <i class="fa fa-heart-o"></i>
+              </button>
+
+              <!-- <small class="text-muted">be the first to like this</small> -->
+            </form>
+            <form action="/create_comment" method="post">
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="photo_id" value="<%= photo.id %>">
+
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+          <input type="text" id="body" name="body" placeholder="Add a comment..." class="form-control" required="">
+            </form>
+
+              <% if current_user.id == photo.user_id %>
+              <a href="/photos/<%= photo.id %>/edit" class="btn btn-warning">Edit</a>
+              <a href="/delete_photo/<%= photo.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+              <% else %>
+              <% end %>
+              <a href="/photos/<%= photo.id %>" class="btn btn-primary">Show</a>
+            </br>
+              <% @current_photo = Comment.where(photo_id: photo.id) %>
+                <% @current_photo.each do |comment| %>
+                <%= comment.user.username %>   <%= time_ago_in_words(comment.created_at) %>
+                <p class="text-muted">
+                    <%= comment.body %>
+                </p>
+              <% end %>
+
+
+
+    </div>
   </div>
-        <% end %>
 
+  <% end %>
 
 </div>
 </div>
