@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   def index
     @photos = Photo.all
+    @photo_liked = Like.where(user_id: current_user.id)
 
     render("photos/index.html.erb")
   end

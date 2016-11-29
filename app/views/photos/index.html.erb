@@ -17,8 +17,25 @@
                 <p class="text-muted">
                     <%= photo.caption %>
 
-                <img src="<%= photo.image %>" class="img-responsive" </a> 
+                <img src="<%= photo.image %>" class="img-responsive" </a>
             </p>
+              <%  @photo_liked = @photo_liked.where(photo_id: photo.id)  %>
+            <% if @photo_liked != nil %>
+            <form action="/delete_like" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+              <input type="hidden" name="photo_id" value="<%= photo.id %>">
+
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+              <button class="btn btn-link">
+                <i class="fa fa-heart"></i>
+              </button>
+
+              <!-- <small class="text-muted">be the first to like this</small> -->
+            </form>
+            <% else %>
             <form action="/create_like" method="post">
               <!-- Hidden input for authenticity token to protect from forgery -->
               <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
@@ -33,6 +50,7 @@
 
               <!-- <small class="text-muted">be the first to like this</small> -->
             </form>
+                <% end %>
             <form action="/create_comment" method="post">
               <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
               <input type="hidden" name="photo_id" value="<%= photo.id %>">
